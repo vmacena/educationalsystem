@@ -3,6 +3,8 @@ package model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Entity
 @Table(name = "students")
 public class Student {
@@ -83,5 +85,24 @@ public class Student {
 
     public void setAcademicRegister(String academicRegister) {
         this.academicRegister = academicRegister;
+    }
+
+    public String getFinalStatus() {
+        if (grade1 == null || grade2 == null || grade3 == null) {
+            return "Notas não definidas";
+        }
+
+        BigDecimal total = grade1.add(grade2).add(grade3);
+        BigDecimal average = total.divide(new BigDecimal(3), RoundingMode.HALF_UP);
+
+        if (average.compareTo(new BigDecimal(6)) >= 0) {
+            return "Aprovado";
+        } else if (average.compareTo(new BigDecimal(4)) >= 0) {
+            return "IFA";
+        } else {
+            return "Reprovado";
+
+
+        }
     }
 }

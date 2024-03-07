@@ -48,4 +48,16 @@ public class StudentManagementController {
         return student;
     }
 
+    public String formatStudentInfo(Student student) {
+        return "Aluno: " +
+                "\nNome: " + student.getName() +
+                "\nRA: " + student.getAcademicRegister() +
+                "\nEmail: " + student.getEmail() +
+                "\nNota 1: " + student.getGrade1() +
+                "\nNota 2: " + student.getGrade2() +
+                "\nNota 3: " + student.getGrade3() +
+                "\nStatus de Aprovação: " + student.getFinalStatus() +
+                "\n-------------------------";
+    }
+
 }
