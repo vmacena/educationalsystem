@@ -96,11 +96,11 @@ public class Student {
         BigDecimal average = total.divide(new BigDecimal(3), RoundingMode.HALF_UP);
 
         if (average.compareTo(new BigDecimal(6)) >= 0) {
-            return "Aprovado";
+            return "Aprovado\n" + " " + "Média: " + average.toString();
         } else if (average.compareTo(new BigDecimal(4)) >= 0) {
-            return "IFA";
+            return "IFA\n" + " " + "Média: " + average.toString();
         } else {
-            return "Reprovado";
+            return "Reprovado\n" + " " + "Média: " + average.toString();
 
 
         }
