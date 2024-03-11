@@ -8,6 +8,7 @@ import repository.StudentRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static repository.StudentRepository.updateStudent;
@@ -60,6 +61,13 @@ public class Test {
                     System.out.println("ALTERAR ALUNO:");
                     System.out.print("Digite o nome do aluno que deseja alterar: ");
                     String oldName = scanner.next();
+                    Student existingStudent = studentManagementController.findStudentQuietly(oldName);
+                    if (existingStudent == null) {
+                        System.out.println("===============\n");
+                        System.out.println("Estudante " + oldName + " não encontrado.\n");
+                        System.out.println("===============");
+                        continue;
+                    }
                     System.out.print("Digite o novo nome do aluno: ");
                     String newName = scanner.next();
                     System.out.print("Digite o novo RA do aluno: ");
@@ -78,9 +86,11 @@ public class Test {
                 case 4:
                     System.out.print("Digite o nome do aluno a ser buscado: ");
                     String nameToSearch = scanner.next();
-                    Student foundStudent = StudentRepository.findStudentByName(nameToSearch);
-                    if (foundStudent != null) {
+                    try {
+                        Student foundStudent = studentManagementController.findStudent(nameToSearch);
                         System.out.println(studentManagementController.formatStudentInfo(foundStudent));
+                    } catch (NoSuchElementException e) {
+                        System.out.println(e.getMessage());
                     }
                     break;
                 case 5:

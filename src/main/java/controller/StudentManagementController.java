@@ -15,25 +15,39 @@ public class StudentManagementController {
     }
 
     public void removeStudent(String name){
-        StudentRepository.deleteStudentById(findStudent(name).getId());
+        Student student = findStudentQuietly(name);
+        if (student != null) {
+            StudentRepository.deleteStudentById(student.getId());
+        } else {
+            System.out.println("===============\n");
+            System.out.println("Estudante " + name + " não encontrado.\n");
+            System.out.println("===============");
+        }
     }
 
     public void updateStudent(String name, String newName, String academicRegister, String email,
-                              BigDecimal grade1, BigDecimal grade2, BigDecimal grade3){
+            BigDecimal grade1, BigDecimal grade2, BigDecimal grade3) {
+        Student existingStudent = findStudent(name);
         Student student = createStudent(newName, academicRegister, email, grade1, grade2, grade3);
-        StudentRepository.updateStudentById(findStudent(name).getId(), student);
+        StudentRepository.updateStudentById(existingStudent.getId(), student);
     }
 
     public void findAllStudents(){
         if(StudentRepository.findAllStudents().isEmpty())
-            throw new NoSuchElementException("Student list is empty.");
+            throw new NoSuchElementException("A lista de alunos está vazia.");
     }
 
-    private Student findStudent(String name){
-            Student student = StudentRepository.findStudentByName(name);
-            if (student == null)
-                throw new NoSuchElementException("Student not found.");
-            return student;
+    public Student findStudent(String name){
+        Student student = StudentRepository.findStudentByName(name);
+        if (student == null) {
+            throw new NoSuchElementException("Estudante " + name + " não encontrado.");
+        }
+        return student;
+    }
+
+    public Student findStudentQuietly(String name){
+        Student student = StudentRepository.findStudentByName(name);
+        return student;
     }
 
     private Student createStudent(String name, String academicRegister, String email,
@@ -49,7 +63,8 @@ public class StudentManagementController {
     }
 
     public String formatStudentInfo(Student student) {
-        return "Aluno: " +
+        return "==========\n" +
+                "Aluno: " +
                 "\nNome: " + student.getName() +
                 "\nRA: " + student.getAcademicRegister() +
                 "\nEmail: " + student.getEmail() +
