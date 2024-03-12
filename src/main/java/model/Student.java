@@ -92,11 +92,11 @@ public class Student {
         double averageDouble = average.doubleValue();
         long roundedAverage = Math.round(averageDouble);
         if (roundedAverage >= 6) {
-            return "Aprovado";
+            return "Aprovado\n" + "Média: " + average.toString();
         } else if (roundedAverage >= 4) {
-            return "IFA";
+            return "IFA\n" + "Média: " + average.toString();
         } else {
-            return "Reprovado";
+            return "Reprovado\n" + "Média: " + average.toString();
         }
     }
 }
